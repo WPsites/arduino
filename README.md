@@ -35,6 +35,10 @@ The output pins must be set explicitly.
 1. `Arduino#analog_read(pin)` - returns the analog value
 2. `Arduino#analog_set(pin, value)` - sets the analog value
 
+**ServoMove**
+
+1. `Arduino#servoMove(pin, value, duration = 500)` - value in degrees 1-180, duration is the length of time you wish to keep sending the pulses (500ms/0.5s is default)
+
 **Misc**
 
 1.) `Arduino#turn_off` - sets all the pins to low state
