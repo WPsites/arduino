@@ -2,9 +2,12 @@
 int cmd = 0;
 
 // command arguments
-int cmd_arg[2];
+int cmd_arg[3];
 
 int serialStatus = 0;
+
+int custom_pulse = 1500;
+int pulse_duration = 500;
 
 void setup()
 {
@@ -13,6 +16,13 @@ void setup()
    // setup the output and input pins
    setupPins();
    serialStatus = 1;
+}
+
+void updateServo( int pin, int pulse){
+  digitalWrite(pin, HIGH);
+  delayMicroseconds(pulse);
+  digitalWrite(pin, LOW);
+  delay(20);  // 20 millisecond delay between pulses is required for the servo
 }
 
 void loop()
@@ -67,6 +77,30 @@ void loop()
          {
             serialStatus = 0;
          }
+         if (cmd==6)
+        {
+         // Serial.println("I'm moving a servo");
+          //cmd_arg[1] = 2000;
+          cmd_arg[0] = readData();
+          cmd_arg[1] = byte (readData()); //THIS READ DATA JUST NEEDS FIXING. IF YOU MODIFY THE CUSTOM_PULSE BELOW IT WORKS FINE. IF YOU TRY USING DATA PASSED IN IT DOESNT..
+          cmd_arg[2] = byte (readData()); //THIS READ DATA JUST NEEDS FIXING. IF YOU MODIFY THE CUSTOM_PULSE BELOW IT WORKS FINE. IF YOU TRY USING DATA PASSED IN IT DOESNT..
+          
+            
+           // custom_pulse = (cmd_arg[1] * 10) + 600;
+           custom_pulse = map(cmd_arg[1], 0, 180, 600, 2400);
+           pulse_duration = int(cmd_arg[2]) * 10;
+    
+  
+             unsigned long startTime;
+  
+             startTime = millis();  // set our timer
+             while(millis() - startTime <   pulse_duration) {  // loop for half a second
+                 updateServo(cmd_arg[0], custom_pulse); //pin, pulse
+             }
+  
+  
+  
+        }
          else
          {
             // invalid command
