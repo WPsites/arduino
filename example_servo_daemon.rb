@@ -1,5 +1,4 @@
 require "arduino"
-require "socket"
 require "mongrel"
 
 # uncomment the below line to run this script as a daemon in the background, probably wise to add shutdown methods if running as a daemon
