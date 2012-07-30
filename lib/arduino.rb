@@ -5,6 +5,7 @@
 # Copyright:: Copyright (c) 2010 Akash Manohar
 # License:: MIT License
 
+require "rubygems"
 require "serialport"
 
 # The main Arduino class.
@@ -132,6 +133,22 @@ class Arduino
         sendData(4)
         sendPin(pin)
         getData()
+    end
+    
+    def servoMove(pin, value, duration = 500)
+	
+	puts "Sending move servo command"
+	sendData(6)
+	
+	#puts "Move pin #{pin}"
+	sendPin(pin)
+	
+	#puts "sending value #{value}"        
+        sendData(value)
+        
+        #puts "sending duration #{duration}"        
+        sendData(duration / 10) #reduce the size of the number so that we can pass it through serial
+
     end
  
     # set all pins to low
